@@ -1,0 +1,14 @@
+<div class="input-bar">
+  <textarea
+    class="text"
+    placeholder="Ask me anything..."
+    [(ngModel)]="text"
+    (keydown)="onKeydown($event)"
+    [disabled]="disabled || sending"
+    rows="1"
+  ></textarea>
+  <button class="send" (click)="onSend()" [disabled]="disabled || sending">
+    <span *ngIf="!sending">Send</span>
+    <span class="spinner" *ngIf="sending"></span>
+  </button>
+</div>

@@ -1,0 +1,24 @@
+<section class="chat">
+  <div class="placeholder" *ngIf="!loading && messages.length === 0">
+    Start the conversation by asking a question...
+  </div>
+
+  <div class="message" *ngFor="let m of messages; trackBy: trackByIndex" [class.user]="m.role==='user'" [class.assistant]="m.role==='assistant'">
+    <div class="bubble">
+      <div class="role">{{ m.role === 'user' ? 'You' : 'Assistant' }}</div>
+      <div class="content">{{ m.content }}</div>
+      <div class="time">{{ m.timestamp | date:'shortTime' }}</div>
+    </div>
+  </div>
+
+  <div class="message assistant typing" *ngIf="typing">
+    <div class="bubble">
+      <div class="role">Assistant</div>
+      <div class="dots">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">Loading messages...</div>
+</section>

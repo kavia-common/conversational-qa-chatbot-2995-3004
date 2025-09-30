@@ -1,0 +1,51 @@
+:host {
+  display: block;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  background-image: var(--op-gradient, none);
+  border-bottom: 1px solid rgba(17, 24, 39, 0.06);
+  padding: 14px 18px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  color: white;
+  background: #2563EB;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+}
+.titles h1 {
+  font-size: 18px;
+  color: #111827;
+  margin: 0;
+}
+.titles p {
+  font-size: 12px;
+  color: #6B7280;
+  margin: 0;
+}
+.api-link {
+  color: #2563EB;
+  text-decoration: none;
+  font-weight: 600;
+  border: 1px solid rgba(37, 99, 235, 0.25);
+  padding: 8px 12px;
+  border-radius: 999px;
+  transition: all .2s ease;
+}
+.api-link:hover {
+  background: rgba(37, 99, 235, 0.07);
+  transform: translateY(-1px);
+}

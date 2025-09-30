@@ -1,0 +1,29 @@
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <button class="new-btn" (click)="create.emit()" [disabled]="loading">
+      + New Chat
+    </button>
+  </div>
+
+  <div class="sessions" *ngIf="!loading; else loadingTpl">
+    <div
+      class="session"
+      *ngFor="let s of sessions; trackBy: trackById"
+      [class.active]="s.session_id === activeSessionId"
+      (click)="select.emit(s)"
+      title="{{ s.title }}"
+    >
+      <div class="title">{{ s.title }}</div>
+      <div class="meta">{{ s.message_count }} msgs</div>
+      <button class="delete" (click)="$event.stopPropagation(); remove.emit(s)" title="Delete">×</button>
+    </div>
+
+    <div class="empty" *ngIf="sessions.length === 0">
+      No sessions yet
+    </div>
+  </div>
+
+  <ng-template #loadingTpl>
+    <div class="loading">Loading sessions...</div>
+  </ng-template>
+</aside>

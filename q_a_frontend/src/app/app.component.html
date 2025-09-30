@@ -1,3 +1,33 @@
-<div class="container">
-  <h1>{{ title }}</h1>
+<div class="app-shell">
+  <app-header></app-header>
+
+  <div class="body">
+    <app-sidebar
+      class="sidebar"
+      [sessions]="sessions"
+      [activeSessionId]="active?.session_id || null"
+      [loading]="loadingSessions"
+      (select)="onSelectSession($event)"
+      (create)="onCreateSession()"
+      (remove)="onRemoveSession($event)"
+    ></app-sidebar>
+
+    <main class="main">
+      <div class="error" *ngIf="error">
+        {{ error }}
+      </div>
+      <app-chat-area
+        class="chat-area"
+        [messages]="messages"
+        [loading]="loadingMessages"
+        [typing]="typing"
+      ></app-chat-area>
+      <app-message-input
+        class="input"
+        [disabled]="!active"
+        [sending]="sending"
+        (send)="onSendMessage($event)"
+      ></app-message-input>
+    </main>
+  </div>
 </div>
