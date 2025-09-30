@@ -79,10 +79,16 @@ export class ApiService {
 
   private handleError(err: HttpErrorResponse) {
     let message = 'An unexpected error occurred.';
+    // Normalize common network/CORS/mixed-content "Failed to fetch" scenarios
+    const rawMessage = (err?.message || '').toLowerCase();
+    if (rawMessage.includes('failed to fetch') || rawMessage.includes('networkerror') || rawMessage.includes('typeerror')) {
+      message = 'Network error contacting API (possible CORS, mixed content, or offline backend).';
+    }
+
     // Avoid instanceof ErrorEvent to support SSR/lint; check by shape
-    if (err.error && typeof err.error === 'object' && 'message' in err.error && typeof err.error.message === 'string') {
+    if (err.error && typeof err.error === 'object' && 'message' in err.error && typeof (err.error as any).message === 'string') {
       message = (err.error as any).message as string;
-    } else if (typeof err.error === 'string') {
+    } else if (typeof err.error === 'string' && err.error.trim().length) {
       message = err.error;
     } else if (err.error?.detail) {
       try {
@@ -92,9 +98,9 @@ export class ApiService {
           message = err.error.detail;
         }
       } catch {
-        // ignore
+        // ignore parse issues, keep existing message
       }
-    } else if (err.message) {
+    } else if (err.message && !rawMessage.includes('failed to fetch')) {
       message = err.message;
     }
     return throwError(() => new Error(message));

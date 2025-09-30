@@ -12,6 +12,31 @@ ng serve
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
+## Backend API configuration
+
+The frontend determines the backend API base URL in the following order:
+1. If `window.__QA_API_BASE_URL__` is defined (e.g., injected at runtime), it is used.
+2. Else, if running in a browser, it will default to `https://<current-hostname>:3001`.
+3. Else, it falls back to `http://localhost:3001`.
+
+This avoids mixed-content issues when the frontend is served over HTTPS.
+
+To override at runtime, inject the global before bootstrapping:
+```html
+<script>
+  window.__QA_API_BASE_URL__ = 'https://your-api-host:3001';
+</script>
+```
+
+In the app header, the right-side button links to `${apiBaseUrl}/docs` to help verify connectivity.
+
+### Common "Failed to fetch" causes and fixes
+- Backend not running: ensure FastAPI is running and reachable at the configured base URL.
+- Mixed content: if the frontend is on HTTPS, ensure the API is also HTTPS or use the default `https://<host>:3001`.
+- CORS: configure CORS on the FastAPI backend to allow the frontend origin.
+- Wrong host/port: confirm `apiBaseUrl` resolves to the backend you intend (see header link tooltip).
+- Network timeouts: check connectivity and firewall rules.
+
 ## Code scaffolding
 
 Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
